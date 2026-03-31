@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 
 const EASE_OUT: [number, number, number, number] = [0.16, 1, 0.3, 1];
 const FOUNDER_LINKEDIN_URL = "https://www.linkedin.com/in/madhan-kumar-govindu-6736b5305/";
@@ -250,13 +251,18 @@ export default function LandingHero() {
                   <div className="flex flex-col sm:flex-row sm:items-center gap-6">
                     <div className="relative">
                       <div className="absolute inset-0 rounded-[2rem] bg-gradient-to-br from-indigo-500/40 via-violet-500/20 to-cyan-400/20 blur-2xl" />
-                      <div className="relative w-28 h-32 rounded-[2rem] border border-white/10 bg-gradient-to-br from-[#171a2a] via-[#0f1320] to-[#08090e] shadow-[0_24px_60px_rgba(0,0,0,0.45)] flex flex-col items-center justify-center overflow-hidden">
-                        <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-white/10 to-transparent" />
-                        <div className="w-16 h-16 rounded-[1.4rem] border border-white/10 bg-white/[0.04] flex items-center justify-center text-2xl font-black tracking-tight text-white">
-                          M
-                        </div>
-                        <div className="mt-3 text-[10px] uppercase tracking-[0.28em] text-white/35">
-                          Founder
+                      <div className="relative w-32 h-40 rounded-[2rem] border border-white/10 bg-gradient-to-br from-[#171a2a] via-[#0f1320] to-[#08090e] shadow-[0_24px_60px_rgba(0,0,0,0.45)] overflow-hidden">
+                        <Image
+                          src="/founder-madhan.jpg"
+                          alt="Madhan, founder of DataFlowAI"
+                          fill
+                          sizes="128px"
+                          className="object-cover"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-white/10" />
+                        <div className="absolute left-3 right-3 bottom-3 rounded-2xl border border-white/10 bg-black/45 backdrop-blur-sm px-3 py-2">
+                          <div className="text-[10px] uppercase tracking-[0.28em] text-white/45">Founder</div>
+                          <div className="text-sm font-bold tracking-tight text-white">Madhan</div>
                         </div>
                       </div>
                     </div>
