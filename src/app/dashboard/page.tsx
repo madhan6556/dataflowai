@@ -31,8 +31,12 @@ interface SavedDashboard {
   created_at: any;
 }
 
+const CHART_START_DELAY_MS = 4000;
+
 export default function Dashboard() {
   const router = useRouter();
+  const analysisRunIdRef = React.useRef(0);
+  const chartQueueTimeoutRef = React.useRef<number | null>(null);
   const [user, setUser] = useState<User | null>(null);
   const [authLoading, setAuthLoading] = useState(true);
 
@@ -49,6 +53,7 @@ export default function Dashboard() {
   // Chart state
   const [dashboardConfig, setDashboardConfig] = useState<any>(null);
   const [isGeneratingCharts, setIsGeneratingCharts] = useState(false);
+  const [isChartQueued, setIsChartQueued] = useState(false);
   const [snapshotData, setSnapshotData] = useState<DashboardSnapshot | null>(null);
 
   // UI state
@@ -90,8 +95,22 @@ export default function Dashboard() {
     loadSavedDashboards(user.uid);
   };
 
+  const clearQueuedChartGeneration = useCallback(() => {
+    if (chartQueueTimeoutRef.current !== null) {
+      window.clearTimeout(chartQueueTimeoutRef.current);
+      chartQueueTimeoutRef.current = null;
+    }
+    setIsChartQueued(false);
+  }, []);
+
+  useEffect(() => () => clearQueuedChartGeneration(), [clearQueuedChartGeneration]);
+
   // ── File parsed ──────────────────────────────────────────────────────────
   const handleFileParsed = async (result: ExtractResult, file: File) => {
+    analysisRunIdRef.current += 1;
+    const runId = analysisRunIdRef.current;
+
+    clearQueuedChartGeneration();
     setParsedData(result);
     setFileName(file.name);
     setDashboardConfig(null);
@@ -100,23 +119,34 @@ export default function Dashboard() {
     setSnapshotData(null);
     setSaveSuccess(false);
     setSaveError(null);
+    setIsGeneratingCharts(false);
 
     // Step 1: Build compact data summary for AI
     const summary = preprocessDatasets(result.datasets, result.schema.detectedDomain);
     setDataSummary(summary);
 
-    // Step 2: Auto-generate AI insights (insight-first!)
-    generateInsights(summary);
-
-    // Step 3: Auto-generate charts in background after a short stagger
-    // so both Gemini requests do not hit at the exact same moment.
-    window.setTimeout(() => {
-      generateCharts(result);
-    }, 800);
+    // Step 2: Auto-generate AI insights first.
+    // Step 3: Queue charts only after insights succeed.
+    void generateInsights(summary, result, runId, true);
   };
 
   // ── AI Insights (PRIMARY) ────────────────────────────────────────────────
-  const generateInsights = async (summary: DataSummary) => {
+  const queueChartGeneration = useCallback((result: ExtractResult, runId: number) => {
+    clearQueuedChartGeneration();
+    setIsChartQueued(true);
+    chartQueueTimeoutRef.current = window.setTimeout(() => {
+      if (analysisRunIdRef.current !== runId) return;
+      setIsChartQueued(false);
+      void generateCharts(result, runId);
+    }, CHART_START_DELAY_MS);
+  }, [clearQueuedChartGeneration]);
+
+  const generateInsights = async (
+    summary: DataSummary,
+    result?: ExtractResult,
+    runId: number = analysisRunIdRef.current,
+    autoQueueCharts: boolean = false
+  ) => {
     setIsAnalyzing(true);
     setInsightError(null);
     try {
@@ -127,16 +157,28 @@ export default function Dashboard() {
       });
       const json = await res.json();
       if (!res.ok) throw new Error(json.error || "Failed to generate insights.");
+      if (analysisRunIdRef.current !== runId) return;
       setInsights(json.insights);
+      if (autoQueueCharts && result) {
+        queueChartGeneration(result, runId);
+      }
     } catch (err: any) {
+      if (analysisRunIdRef.current !== runId) return;
+      clearQueuedChartGeneration();
       setInsightError(err.message || "Analysis failed.");
     } finally {
-      setIsAnalyzing(false);
+      if (analysisRunIdRef.current === runId) {
+        setIsAnalyzing(false);
+      }
     }
   };
 
   // ── Charts (SECONDARY) ───────────────────────────────────────────────────
-  const generateCharts = async (result: ExtractResult) => {
+  const generateCharts = async (
+    result: ExtractResult,
+    runId: number = analysisRunIdRef.current
+  ) => {
+    if (analysisRunIdRef.current !== runId) return;
     setIsGeneratingCharts(true);
     try {
       const res = await fetch("/api/generate-dashboard", {
@@ -146,12 +188,15 @@ export default function Dashboard() {
       });
       const json = await res.json();
       if (!res.ok) throw new Error(json.error || "Chart generation failed.");
+      if (analysisRunIdRef.current !== runId) return;
       setDashboardConfig(json.config);
     } catch (err) {
       // Charts failing silently is acceptable — insights are still shown
       console.warn("Chart generation failed:", err);
     } finally {
-      setIsGeneratingCharts(false);
+      if (analysisRunIdRef.current === runId) {
+        setIsGeneratingCharts(false);
+      }
     }
   };
 
@@ -185,6 +230,7 @@ export default function Dashboard() {
 
   // ── Load saved ───────────────────────────────────────────────────────────
   const loadDashboard = (saved: SavedDashboard) => {
+    analysisRunIdRef.current += 1;
     setFileName(saved.file_name);
     setInsights(saved.insights || null);
     setDashboardConfig(saved.dashboard_config || null);
@@ -192,6 +238,8 @@ export default function Dashboard() {
     setSnapshotData(saved.snapshot || null);
     setInsightError(null);
     setSaveSuccess(false);
+    clearQueuedChartGeneration();
+    setIsGeneratingCharts(false);
     setActiveTab("workspace");
 
     // Legacy: decompress old LZString saves
@@ -345,7 +393,7 @@ export default function Dashboard() {
             <motion.div key="workspace" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col gap-8">
 
               {/* Upload area — shown when no content */}
-              {!hasContent && !isGeneratingCharts && (
+              {!hasContent && !isGeneratingCharts && !isChartQueued && (
                 <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col gap-6">
                   <div className="text-center pb-2">
                     <h1 className="text-3xl md:text-4xl font-black tracking-tight mb-2">
@@ -358,7 +406,7 @@ export default function Dashboard() {
               )}
 
               {/* File uploaded but no results yet — show uploader smaller + loading state */}
-              {(hasContent || isGeneratingCharts) && (
+              {(hasContent || isGeneratingCharts || isChartQueued) && (
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <div className="w-9 h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-base">📁</div>
@@ -371,9 +419,12 @@ export default function Dashboard() {
                   </div>
                   <button
                     onClick={() => {
+                      analysisRunIdRef.current += 1;
+                      clearQueuedChartGeneration();
                       setParsedData(null); setInsights(null); setDashboardConfig(null);
                       setDataSummary(null); setSnapshotData(null); setFileName("");
                       setInsightError(null);
+                      setIsGeneratingCharts(false);
                     }}
                     className="text-xs text-white/30 hover:text-white/60 border border-white/10 hover:border-white/20 px-3 py-1.5 rounded-lg transition-all"
                   >
@@ -389,7 +440,14 @@ export default function Dashboard() {
                     <div className="rounded-2xl bg-red-500/10 border border-red-500/20 p-6 text-center">
                       <p className="text-red-400 mb-3 text-sm">{insightError}</p>
                       <button
-                        onClick={() => dataSummary && generateInsights(dataSummary)}
+                        onClick={() => {
+                          if (!dataSummary || !parsedData) return;
+                          analysisRunIdRef.current += 1;
+                          const runId = analysisRunIdRef.current;
+                          clearQueuedChartGeneration();
+                          setDashboardConfig(null);
+                          void generateInsights(dataSummary, parsedData, runId, true);
+                        }}
                         className="px-4 py-2 rounded-xl bg-red-500/20 text-red-400 text-xs font-bold hover:bg-red-500/30 transition-all"
                       >
                         Retry Analysis
@@ -402,12 +460,17 @@ export default function Dashboard() {
               )}
 
               {/* ── SECONDARY: CHARTS + CHAT ────────────────────────── */}
-              {(dashboardConfig || isGeneratingCharts || snapshotData) && (
+              {(dashboardConfig || isGeneratingCharts || isChartQueued || snapshotData) && (
                 <div>
                   <div className="flex items-center gap-4 mb-6 print:hidden">
                     <div className="h-px w-8 bg-white/20" />
                     <span className="text-white/50 font-bold text-sm uppercase tracking-widest">Visual Overview</span>
                     <div className="h-px flex-1 bg-gradient-to-r from-white/20 to-transparent" />
+                    {isChartQueued && !isGeneratingCharts && (
+                      <span className="text-white/30 text-xs">
+                        Preparing charts after insights…
+                      </span>
+                    )}
                     {isGeneratingCharts && (
                       <span className="flex items-center gap-2 text-white/30 text-xs">
                         <span className="w-3 h-3 border border-white/30 border-t-transparent rounded-full animate-spin" />
@@ -437,7 +500,7 @@ export default function Dashboard() {
               )}
 
               {/* Chat only — when insights loaded but no charts yet */}
-              {insights && !dashboardConfig && !isGeneratingCharts && dataSummary && (
+              {insights && !dashboardConfig && !isGeneratingCharts && !isChartQueued && dataSummary && (
                 <div className="print:hidden">
                   <div className="flex items-center gap-4 mb-6">
                     <div className="h-px w-8 bg-white/20" />
