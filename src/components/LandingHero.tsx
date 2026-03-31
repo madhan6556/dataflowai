@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 
 const EASE_OUT: [number, number, number, number] = [0.16, 1, 0.3, 1];
+const FOUNDER_LINKEDIN_URL = "https://www.linkedin.com/in/madhan-kumar-govindu-6736b5305/";
 
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 24 },
@@ -235,6 +236,83 @@ export default function LandingHero() {
           </div>
         </section>
 
+        <section className="py-24 border-t border-white/5">
+          <div className="max-w-5xl mx-auto">
+            <motion.div
+              {...fadeUp(0)}
+              className="rounded-[2rem] border border-white/10 bg-gradient-to-br from-white/[0.04] via-white/[0.02] to-indigo-500/[0.05] overflow-hidden"
+            >
+              <div className="grid grid-cols-1 lg:grid-cols-[1.15fr_0.85fr]">
+                <div className="p-8 md:p-10 border-b lg:border-b-0 lg:border-r border-white/8">
+                  <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/10 bg-white/[0.04] text-[11px] font-bold uppercase tracking-[0.22em] text-white/50 mb-6">
+                    Founder Spotlight
+                  </div>
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-6">
+                    <div className="relative">
+                      <div className="absolute inset-0 rounded-[2rem] bg-gradient-to-br from-indigo-500/40 via-violet-500/20 to-cyan-400/20 blur-2xl" />
+                      <div className="relative w-28 h-32 rounded-[2rem] border border-white/10 bg-gradient-to-br from-[#171a2a] via-[#0f1320] to-[#08090e] shadow-[0_24px_60px_rgba(0,0,0,0.45)] flex flex-col items-center justify-center overflow-hidden">
+                        <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-white/10 to-transparent" />
+                        <div className="w-16 h-16 rounded-[1.4rem] border border-white/10 bg-white/[0.04] flex items-center justify-center text-2xl font-black tracking-tight text-white">
+                          M
+                        </div>
+                        <div className="mt-3 text-[10px] uppercase tracking-[0.28em] text-white/35">
+                          Founder
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-white/35 text-sm uppercase tracking-[0.28em] mb-3">Meet Madhan</p>
+                      <h2 className="text-3xl md:text-4xl font-black tracking-tight mb-4">
+                        Built by <span className="text-indigo-300">Madhan</span> for people who need answers, not spreadsheet gymnastics.
+                      </h2>
+                      <p className="text-white/55 leading-relaxed max-w-2xl">
+                        DataFlowAI is founder-led and product-first: fast insight delivery, clear visual reasoning, and an experience designed to make raw business data feel immediately usable.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="p-8 md:p-10 flex flex-col justify-between gap-8">
+                  <div className="space-y-4">
+                    {[
+                      "Founder-led product vision with a strong focus on clarity and execution.",
+                      "AI-first analysis flow designed for business owners, operators, and analysts.",
+                      "Professional reports, guided questions, and interactive dashboards in one workspace.",
+                    ].map((point, index) => (
+                      <div key={index} className="flex items-start gap-3 text-sm text-white/65">
+                        <span className="mt-1.5 w-2 h-2 rounded-full bg-indigo-400 shadow-[0_0_20px_rgba(129,140,248,0.6)]" />
+                        <span>{point}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="rounded-2xl border border-white/10 bg-black/30 p-5">
+                    <p className="text-white/35 text-xs uppercase tracking-[0.24em] mb-3">Connect</p>
+                    <a
+                      href={FOUNDER_LINKEDIN_URL}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="group inline-flex items-center gap-3 rounded-2xl border border-[#2f7ef7]/25 bg-[#0a66c2]/10 px-4 py-3 text-white hover:bg-[#0a66c2]/18 transition-all"
+                    >
+                      <span className="flex items-center justify-center w-10 h-10 rounded-xl bg-[#0A66C2] text-white shadow-[0_10px_30px_rgba(10,102,194,0.35)]">
+                        <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                          <path d="M6.94 8.5a1.56 1.56 0 1 1 0-3.12 1.56 1.56 0 0 1 0 3.12ZM5.6 9.7h2.68V18H5.6V9.7Zm4.36 0h2.57v1.13h.04c.36-.68 1.24-1.4 2.54-1.4 2.72 0 3.23 1.79 3.23 4.11V18h-2.68v-3.95c0-.94-.02-2.15-1.31-2.15-1.31 0-1.51 1.02-1.51 2.08V18H9.96V9.7Z" />
+                        </svg>
+                      </span>
+                      <span className="flex flex-col text-left">
+                        <span className="text-sm font-bold tracking-tight">Connect with Madhan</span>
+                        <span className="text-xs text-white/50 group-hover:text-white/70 transition-colors">
+                          View LinkedIn profile
+                        </span>
+                      </span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </section>
+
         {/* ── CTA FOOTER ─────────────────────────────────────────────────── */}
         <section className="py-24 border-t border-white/5 text-center">
           <h2 className="text-4xl md:text-6xl font-black tracking-tight mb-6">
@@ -254,7 +332,10 @@ export default function LandingHero() {
         {/* Footer */}
         <footer className="border-t border-white/5 py-8 flex items-center justify-between text-white/20 text-sm">
           <div className="font-bold tracking-tighter">DataFlow<span className="text-indigo-400/60">AI</span></div>
-          <div>© 2026 DataFlowAI. All rights reserved.</div>
+          <div className="text-right">
+            <div>© 2026 DataFlowAI. All rights reserved.</div>
+            <div className="text-white/30 mt-1">Founded by Madhan</div>
+          </div>
         </footer>
       </div>
     </div>

@@ -493,7 +493,10 @@ export default function Dashboard() {
 
                     {/* Chat — 1/3 width */}
                     <div className="print:hidden">
-                      <ChatInterface context={dataSummary} />
+                      <ChatInterface
+                        context={dataSummary}
+                        suggestedQuestions={insights?.suggestedQuestions}
+                      />
                     </div>
                   </div>
                 </div>
@@ -508,7 +511,10 @@ export default function Dashboard() {
                     <div className="h-px flex-1 bg-gradient-to-r from-white/20 to-transparent" />
                   </div>
                   <div className="max-w-2xl">
-                    <ChatInterface context={dataSummary} />
+                    <ChatInterface
+                      context={dataSummary}
+                      suggestedQuestions={insights?.suggestedQuestions}
+                    />
                   </div>
                 </div>
               )}

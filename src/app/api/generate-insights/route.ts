@@ -14,6 +14,7 @@ export interface InsightResult {
   anomalies: string[];
   recommendations: string[];
   riskAreas: string[];
+  suggestedQuestions?: string[];
 }
 
 export function buildInsightPrompt(summary: DataSummary): string {
@@ -75,7 +76,8 @@ Return ONLY valid JSON matching this exact structure:
   "trends": ["3-5 trend observations — what is growing, declining, or changing over time"],
   "anomalies": ["2-4 surprising findings, outliers, or things that need attention"],
   "recommendations": ["4-6 clear, actionable business recommendations"],
-  "riskAreas": ["2-3 risk areas or concerns the business should watch"]
+  "riskAreas": ["2-3 risk areas or concerns the business should watch"],
+  "suggestedQuestions": ["4-5 short, engaging follow-up questions tailored to this exact dataset. Keep each one under 12 words, make them concrete and curiosity-driven, and avoid repeating the same pattern."]
 }`;
 
   return context;
@@ -98,7 +100,14 @@ export async function POST(req: Request) {
     const prompt = buildInsightPrompt(summary);
     const rawText = await generateGeminiText(model, prompt, { maxAttempts: 3, baseDelayMs: 1500 });
     const text = rawText.replace(/```json/gi, "").replace(/```/g, "").trim();
-    const insights: InsightResult = JSON.parse(text);
+    const parsed: InsightResult = JSON.parse(text);
+    const insights: InsightResult = {
+      ...parsed,
+      suggestedQuestions: (parsed.suggestedQuestions || [])
+        .map((question) => question.trim())
+        .filter(Boolean)
+        .slice(0, 5),
+    };
 
     return NextResponse.json({ insights });
   } catch (err: unknown) {
