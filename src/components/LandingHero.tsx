@@ -246,98 +246,66 @@ export default function LandingHero() {
               <div className="absolute -left-10 top-12 h-40 w-40 rounded-full bg-indigo-500/12 blur-3xl" />
               <div className="absolute bottom-0 right-0 h-44 w-44 rounded-full bg-cyan-400/8 blur-3xl" />
 
-              <div className="relative grid grid-cols-1 xl:grid-cols-[1.1fr_0.9fr] gap-10 p-8 md:p-10 lg:p-12">
-                <div className="space-y-7">
-                  <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-black/20 px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.24em] text-white/55">
+              <div className="relative flex flex-col md:flex-row gap-10 p-8 md:p-10 lg:p-12 items-center">
+                <div className="flex flex-col items-center md:items-start shrink-0 w-full md:max-w-[280px]">
+                  <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-black/20 px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.24em] text-white/55 mb-8">
                     Founder Spotlight
                   </div>
 
-                  <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-[260px_1fr]">
-                    <div className="relative mx-auto lg:mx-0">
-                      <div className="absolute -inset-4 rounded-[2rem] bg-gradient-to-br from-indigo-500/30 via-violet-500/15 to-cyan-400/20 blur-3xl" />
-                      <div className="relative rounded-[2rem] border border-white/12 bg-black/30 p-3 shadow-[0_24px_70px_rgba(0,0,0,0.42)]">
-                        <div className="relative aspect-[4/5] overflow-hidden rounded-[1.5rem]">
-                          <Image
-                            src="/founder-madhan.jpg"
-                            alt="Madhan, founder of DataFlowAI"
-                            fill
-                            sizes="(max-width: 1024px) 280px, 320px"
-                            className="object-cover"
-                          />
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="space-y-5 text-left">
-                      <p className="text-sm uppercase tracking-[0.28em] text-white/35">Meet Madhan</p>
-                      <h2 className="max-w-3xl text-4xl font-black leading-[1.02] tracking-tight md:text-5xl">
-                        Built by <span className="text-indigo-300">Madhan</span> for people who want clarity without the noise.
-                        <span className="mt-2 block bg-gradient-to-r from-white via-white to-indigo-200 bg-clip-text text-transparent">
-                          Minimal by design. Useful by default.
-                        </span>
-                      </h2>
-                      <p className="max-w-2xl text-lg leading-relaxed text-white/58">
-                        DataFlowAI is founder-led and product-first: built to turn raw spreadsheets into insight, recommendations, and confident decisions without making the interface feel heavy.
-                      </p>
-
-                      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                        {[
-                          { value: "Insight-first", label: "Analysis leads, visuals follow." },
-                          { value: "Founder-built", label: "A product shaped directly by Madhan." },
-                        ].map((item) => (
-                          <div key={item.value} className="rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-4">
-                            <div className="text-sm font-bold tracking-tight text-white">{item.value}</div>
-                            <div className="mt-1 text-xs leading-relaxed text-white/45">{item.label}</div>
-                          </div>
-                        ))}
+                  <div className="relative w-[280px] md:w-full">
+                    <div className="absolute -inset-4 rounded-[2rem] bg-gradient-to-br from-indigo-500/30 via-violet-500/15 to-cyan-400/20 blur-3xl" />
+                    <div className="relative rounded-[2rem] border border-white/12 bg-black/30 p-3 shadow-[0_24px_70px_rgba(0,0,0,0.42)]">
+                      <div className="relative aspect-[4/5] overflow-hidden rounded-[1.5rem]">
+                        <Image
+                          src="/founder-madhan.jpg"
+                          alt="Madhan, founder of DataFlowAI"
+                          fill
+                          sizes="(max-width: 1024px) 280px, 320px"
+                          className="object-cover"
+                        />
                       </div>
                     </div>
                   </div>
                 </div>
 
-                <div className="flex flex-col justify-center gap-5">
-                  <div className="rounded-[1.8rem] border border-white/10 bg-black/25 p-6">
-                    <p className="mb-5 text-xs uppercase tracking-[0.28em] text-white/35">Why it feels different</p>
-                    <div className="space-y-5">
+                <div className="flex-1 flex flex-col justify-center gap-6 w-full">
+                  {/* Why it feels different */}
+                  <div className="relative rounded-[2rem] border border-white/5 bg-white/[0.02] p-8 hover:bg-white/[0.03] transition-colors duration-500">
+                    <p className="mb-6 text-xs font-bold uppercase tracking-widest text-indigo-300">Why it feels different</p>
+                    <div className="space-y-4">
                       {[
                         "Designed for founders, operators, and analysts who want signal without dashboard clutter.",
-                        "Pairs plain-English reasoning with visual summaries so the product stays understandable at first glance.",
-                        "Keeps the experience calm, focused, and action-oriented instead of overwhelming the user with controls.",
+                        "Pairs plain-English reasoning with visual summaries for instant understanding.",
+                        "Calm, focused, and action-oriented — never overwhelming."
                       ].map((point, index) => (
                         <div key={index} className="flex items-start gap-4">
-                          <span className="mt-2 h-2 w-2 rounded-full bg-indigo-300/80" />
-                          <p className="text-sm leading-relaxed text-white/62">{point}</p>
+                          <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-indigo-400" />
+                          <p className="text-sm leading-relaxed text-white/50">{point}</p>
                         </div>
                       ))}
                     </div>
                   </div>
 
-                  <div className="rounded-[1.8rem] border border-white/10 bg-[linear-gradient(135deg,rgba(10,102,194,0.16),rgba(255,255,255,0.02))] p-6">
-                    <p className="mb-3 text-xs uppercase tracking-[0.28em] text-white/35">Connect</p>
-                    <div className="space-y-4">
-                      <div className="max-w-md">
-                        <h3 className="text-2xl font-black tracking-tight text-white">Connect with Madhan on LinkedIn</h3>
-                        <p className="mt-2 text-sm leading-relaxed text-white/60">
-                          Product conversations, founder networking, and thoughtful feedback are always welcome.
+                  {/* Connect */}
+                  <div className="relative rounded-[2rem] border border-indigo-500/10 bg-gradient-to-br from-indigo-500/5 to-transparent p-8">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+                      <div className="max-w-[280px]">
+                        <p className="mb-2 text-xs font-bold uppercase tracking-widest text-[#2f7ef7]">Connect</p>
+                        <h3 className="text-xl font-bold tracking-tight text-white">Connect with Madhan</h3>
+                        <p className="mt-2 text-xs leading-relaxed text-white/50">
+                          Product conversations and feedback are always welcome.
                         </p>
                       </div>
                       <a
                         href={FOUNDER_LINKEDIN_URL}
                         target="_blank"
                         rel="noreferrer"
-                        className="group inline-flex items-center gap-3 rounded-2xl border border-[#2f7ef7]/30 bg-black/30 px-5 py-4 text-white transition-all hover:bg-black/40"
+                        className="group flex items-center justify-center shrink-0 w-16 h-16 rounded-2xl bg-[#0A66C2] text-white hover:scale-105 transition-all duration-300 shadow-[0_0_30px_rgba(10,102,194,0.3)]"
+                        aria-label="Connect on LinkedIn"
                       >
-                        <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#0A66C2] text-white shadow-[0_12px_30px_rgba(10,102,194,0.35)]">
-                          <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                            <path d="M6.94 8.5a1.56 1.56 0 1 1 0-3.12 1.56 1.56 0 0 1 0 3.12ZM5.6 9.7h2.68V18H5.6V9.7Zm4.36 0h2.57v1.13h.04c.36-.68 1.24-1.4 2.54-1.4 2.72 0 3.23 1.79 3.23 4.11V18h-2.68v-3.95c0-.94-.02-2.15-1.31-2.15-1.31 0-1.51 1.02-1.51 2.08V18H9.96V9.7Z" />
-                          </svg>
-                        </span>
-                        <span className="flex flex-col text-left">
-                          <span className="text-sm font-bold tracking-tight">View LinkedIn profile</span>
-                          <span className="text-xs text-white/50 transition-colors group-hover:text-white/70">
-                            Open founder profile
-                          </span>
-                        </span>
+                         <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+                           <path d="M6.94 8.5a1.56 1.56 0 1 1 0-3.12 1.56 1.56 0 0 1 0 3.12ZM5.6 9.7h2.68V18H5.6V9.7Zm4.36 0h2.57v1.13h.04c.36-.68 1.24-1.4 2.54-1.4 2.72 0 3.23 1.79 3.23 4.11V18h-2.68v-3.95c0-.94-.02-2.15-1.31-2.15-1.31 0-1.51 1.02-1.51 2.08V18H9.96V9.7Z" />
+                         </svg>
                       </a>
                     </div>
                   </div>
