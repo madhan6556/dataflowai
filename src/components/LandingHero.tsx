@@ -241,77 +241,122 @@ export default function LandingHero() {
           <div className="max-w-5xl mx-auto">
             <motion.div
               {...fadeUp(0)}
-              className="rounded-[2rem] border border-white/10 bg-gradient-to-br from-white/[0.04] via-white/[0.02] to-indigo-500/[0.05] overflow-hidden"
+              className="relative overflow-hidden rounded-[2.25rem] border border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(99,102,241,0.22),transparent_28%),radial-gradient(circle_at_85%_18%,rgba(34,211,238,0.16),transparent_22%),linear-gradient(135deg,rgba(255,255,255,0.05),rgba(255,255,255,0.015))]"
             >
-              <div className="grid grid-cols-1 lg:grid-cols-[1.15fr_0.85fr]">
-                <div className="p-8 md:p-10 border-b lg:border-b-0 lg:border-r border-white/8">
-                  <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/10 bg-white/[0.04] text-[11px] font-bold uppercase tracking-[0.22em] text-white/50 mb-6">
+              <div className="absolute inset-y-0 right-[18%] hidden w-px bg-gradient-to-b from-transparent via-white/10 to-transparent xl:block" />
+              <div className="absolute -left-16 top-10 h-48 w-48 rounded-full bg-indigo-500/15 blur-3xl" />
+              <div className="absolute bottom-0 right-0 h-56 w-56 rounded-full bg-cyan-400/10 blur-3xl" />
+
+              <div className="relative grid grid-cols-1 xl:grid-cols-[1.2fr_0.8fr] gap-10 p-8 md:p-10 lg:p-12">
+                <div className="space-y-8">
+                  <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-black/20 px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.26em] text-white/55">
                     Founder Spotlight
                   </div>
-                  <div className="flex flex-col sm:flex-row sm:items-center gap-6">
-                    <div className="relative">
-                      <div className="absolute inset-0 rounded-[2rem] bg-gradient-to-br from-indigo-500/40 via-violet-500/20 to-cyan-400/20 blur-2xl" />
-                      <div className="relative w-32 h-40 rounded-[2rem] border border-white/10 bg-gradient-to-br from-[#171a2a] via-[#0f1320] to-[#08090e] shadow-[0_24px_60px_rgba(0,0,0,0.45)] overflow-hidden">
-                        <Image
-                          src="/founder-madhan.jpg"
-                          alt="Madhan, founder of DataFlowAI"
-                          fill
-                          sizes="128px"
-                          className="object-cover"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-white/10" />
-                        <div className="absolute left-3 right-3 bottom-3 rounded-2xl border border-white/10 bg-black/45 backdrop-blur-sm px-3 py-2">
-                          <div className="text-[10px] uppercase tracking-[0.28em] text-white/45">Founder</div>
-                          <div className="text-sm font-bold tracking-tight text-white">Madhan</div>
+
+                  <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-[280px_1fr]">
+                    <div className="relative mx-auto lg:mx-0">
+                      <div className="absolute -inset-5 rounded-[2.2rem] bg-gradient-to-br from-indigo-500/35 via-violet-500/20 to-cyan-400/25 blur-3xl" />
+                      <div className="relative rounded-[2.2rem] border border-white/12 bg-black/35 p-3 backdrop-blur-xl shadow-[0_30px_80px_rgba(0,0,0,0.45)]">
+                        <div className="relative aspect-[4/5] overflow-hidden rounded-[1.7rem]">
+                          <Image
+                            src="/founder-madhan.jpg"
+                            alt="Madhan, founder of DataFlowAI"
+                            fill
+                            sizes="(max-width: 1024px) 280px, 320px"
+                            className="object-cover"
+                          />
+                          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.08),transparent_24%,transparent_60%,rgba(0,0,0,0.6))]" />
+                        </div>
+                        <div className="absolute bottom-8 left-8 right-8 rounded-[1.4rem] border border-white/10 bg-black/50 px-4 py-3 backdrop-blur-md">
+                          <div className="text-[10px] uppercase tracking-[0.3em] text-white/45">Founder</div>
+                          <div className="mt-1 text-2xl font-black tracking-tight text-white">Madhan</div>
+                          <div className="mt-1 text-sm text-white/55">DataFlowAI</div>
                         </div>
                       </div>
                     </div>
-                    <div className="flex-1">
-                      <p className="text-white/35 text-sm uppercase tracking-[0.28em] mb-3">Meet Madhan</p>
-                      <h2 className="text-3xl md:text-4xl font-black tracking-tight mb-4">
-                        Built by <span className="text-indigo-300">Madhan</span> for people who need answers, not spreadsheet gymnastics.
+
+                    <div className="space-y-6 text-left">
+                      <p className="text-sm uppercase tracking-[0.3em] text-white/35">Meet Madhan</p>
+                      <h2 className="max-w-3xl text-4xl font-black leading-[0.98] tracking-tight md:text-5xl xl:text-6xl">
+                        Founder-led AI analytics
+                        <span className="block text-white/75">with a sharper eye for</span>
+                        <span className="bg-gradient-to-r from-indigo-300 via-violet-200 to-cyan-200 bg-clip-text text-transparent">
+                          clarity, speed, and trust.
+                        </span>
                       </h2>
-                      <p className="text-white/55 leading-relaxed max-w-2xl">
-                        DataFlowAI is founder-led and product-first: fast insight delivery, clear visual reasoning, and an experience designed to make raw business data feel immediately usable.
+                      <p className="max-w-2xl text-lg leading-relaxed text-white/58">
+                        DataFlowAI is built to make complex spreadsheets feel instantly understandable. The product direction is simple: surface the story inside the data, make the next action obvious, and keep the experience beautiful enough to trust.
                       </p>
+
+                      <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+                        {[
+                          { value: "Insight-first", label: "AI reveals meaning before charts." },
+                          { value: "Founder-built", label: "Hands-on product thinking from Madhan." },
+                          { value: "Action-ready", label: "Recommendations designed for real decisions." },
+                        ].map((item) => (
+                          <div key={item.value} className="rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-4 backdrop-blur-sm">
+                            <div className="text-sm font-bold tracking-tight text-white">{item.value}</div>
+                            <div className="mt-1 text-xs leading-relaxed text-white/45">{item.label}</div>
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 </div>
 
-                <div className="p-8 md:p-10 flex flex-col justify-between gap-8">
-                  <div className="space-y-4">
-                    {[
-                      "Founder-led product vision with a strong focus on clarity and execution.",
-                      "AI-first analysis flow designed for business owners, operators, and analysts.",
-                      "Professional reports, guided questions, and interactive dashboards in one workspace.",
-                    ].map((point, index) => (
-                      <div key={index} className="flex items-start gap-3 text-sm text-white/65">
-                        <span className="mt-1.5 w-2 h-2 rounded-full bg-indigo-400 shadow-[0_0_20px_rgba(129,140,248,0.6)]" />
-                        <span>{point}</span>
-                      </div>
-                    ))}
+                <div className="flex flex-col justify-between gap-6">
+                  <div className="rounded-[1.8rem] border border-white/10 bg-black/28 p-6 backdrop-blur-sm">
+                    <p className="mb-5 text-xs uppercase tracking-[0.28em] text-white/35">Product Notes</p>
+                    <div className="space-y-4">
+                      {[
+                        "Designed for founders, operators, analysts, and anyone who wants signal faster than traditional BI tools can provide it.",
+                        "Pairs plain-English reasoning with visual summaries so business users do not have to reverse-engineer dashboards.",
+                        "Keeps the human in control: upload, understand, ask sharper questions, and move quickly with confidence.",
+                      ].map((point, index) => (
+                        <div key={index} className="flex items-start gap-4">
+                          <div className="mt-1 flex h-6 w-6 items-center justify-center rounded-full border border-indigo-400/25 bg-indigo-400/10 text-[11px] font-bold text-indigo-300">
+                            0{index + 1}
+                          </div>
+                          <p className="text-sm leading-relaxed text-white/62">{point}</p>
+                        </div>
+                      ))}
+                    </div>
                   </div>
 
-                  <div className="rounded-2xl border border-white/10 bg-black/30 p-5">
-                    <p className="text-white/35 text-xs uppercase tracking-[0.24em] mb-3">Connect</p>
-                    <a
-                      href={FOUNDER_LINKEDIN_URL}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="group inline-flex items-center gap-3 rounded-2xl border border-[#2f7ef7]/25 bg-[#0a66c2]/10 px-4 py-3 text-white hover:bg-[#0a66c2]/18 transition-all"
-                    >
-                      <span className="flex items-center justify-center w-10 h-10 rounded-xl bg-[#0A66C2] text-white shadow-[0_10px_30px_rgba(10,102,194,0.35)]">
-                        <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                          <path d="M6.94 8.5a1.56 1.56 0 1 1 0-3.12 1.56 1.56 0 0 1 0 3.12ZM5.6 9.7h2.68V18H5.6V9.7Zm4.36 0h2.57v1.13h.04c.36-.68 1.24-1.4 2.54-1.4 2.72 0 3.23 1.79 3.23 4.11V18h-2.68v-3.95c0-.94-.02-2.15-1.31-2.15-1.31 0-1.51 1.02-1.51 2.08V18H9.96V9.7Z" />
-                        </svg>
-                      </span>
-                      <span className="flex flex-col text-left">
-                        <span className="text-sm font-bold tracking-tight">Connect with Madhan</span>
-                        <span className="text-xs text-white/50 group-hover:text-white/70 transition-colors">
-                          View LinkedIn profile
+                  <div className="rounded-[1.8rem] border border-white/10 bg-[linear-gradient(135deg,rgba(10,102,194,0.22),rgba(255,255,255,0.03))] p-6">
+                    <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+                      <div className="max-w-sm">
+                        <p className="mb-3 text-xs uppercase tracking-[0.28em] text-white/35">Connect</p>
+                        <h3 className="text-2xl font-black tracking-tight text-white">Connect with Madhan on LinkedIn</h3>
+                        <p className="mt-2 text-sm leading-relaxed text-white/60">
+                          Reach out for product conversations, founder networking, or to talk about how DataFlowAI is evolving.
+                        </p>
+                      </div>
+                      <a
+                        href={FOUNDER_LINKEDIN_URL}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="group inline-flex items-center gap-3 rounded-2xl border border-[#2f7ef7]/30 bg-black/30 px-5 py-4 text-white transition-all hover:-translate-y-0.5 hover:bg-black/40"
+                      >
+                        <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#0A66C2] text-white shadow-[0_12px_30px_rgba(10,102,194,0.35)]">
+                          <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M6.94 8.5a1.56 1.56 0 1 1 0-3.12 1.56 1.56 0 0 1 0 3.12ZM5.6 9.7h2.68V18H5.6V9.7Zm4.36 0h2.57v1.13h.04c.36-.68 1.24-1.4 2.54-1.4 2.72 0 3.23 1.79 3.23 4.11V18h-2.68v-3.95c0-.94-.02-2.15-1.31-2.15-1.31 0-1.51 1.02-1.51 2.08V18H9.96V9.7Z" />
+                          </svg>
                         </span>
-                      </span>
-                    </a>
+                        <span className="flex flex-col text-left">
+                          <span className="text-sm font-bold tracking-tight">View LinkedIn profile</span>
+                          <span className="text-xs text-white/50 transition-colors group-hover:text-white/70">
+                            Open founder profile
+                          </span>
+                        </span>
+                      </a>
+                    </div>
+                  </div>
+
+                  <div className="rounded-[1.6rem] border border-white/8 bg-white/[0.025] px-5 py-4">
+                    <p className="text-sm italic leading-relaxed text-white/55">
+                      "The goal is simple: make people feel like their data is finally speaking clearly."
+                    </p>
                   </div>
                 </div>
               </div>
